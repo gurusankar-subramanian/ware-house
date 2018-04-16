@@ -22,7 +22,11 @@ public class MainClass {
 		Boolean exit = false;
 		while(!exit){
 			
-			System.out.println("Enter the next process no :: 1. create Widget  2.sort widget by color  3.sort widget by date  4. prepare and release shipment 5. show widgets 6.exit ");  
+			System.out.println("Enter the next process no :: 1. create Widget  2.sort widget by color  3.sort widget by date  4. prepare shipment "
+					+ " 5. check added ids in shipment "
+					+ " 6. Release shipment "
+					+ " 7. show widgets "
+					+ " 8.exit ");  
 		    int process = sc.nextInt();  
 			switch(process){
 			case 1:	main.createWidget(sc);
@@ -44,19 +48,25 @@ public class MainClass {
 					break;
 			case 4: Boolean result = main.prepareShipment(sc);
 					if(result)
-						main.relaseShipment();	
+						
 					break;
-			case 5: if(WareHouse.getInstance().getWidgets().size() > 0){
+			case 5 : System.out.println("Widgets in shipment now ::" +  new Gson().toJson(Shipment.getInstance().getToBeReleasedIds()));	
+					 break;
+					 
+			case 6: main.relaseShipment();	
+					break;
+					
+			case 7 : if(WareHouse.getInstance().getWidgets().size() > 0){
 						System.out.println(new Gson().toJson(WareHouse.getInstance().getWidgets()));
 						break;
 					}else{
 						System.out.println("There is no widget to show");
 					}
-			case 6: exit = true; 
+			case 8 : exit = true; 
 					System.out.println("Bye");
 					break;
 					
-			case 7: WareHouse wareHouse = WareHouse.getInstance();
+			case 9: WareHouse wareHouse = WareHouse.getInstance();
 					wareHouse.getWidgets().addAll(WidgetUtils.getSampleWidgets());
 					break;
 					
@@ -90,7 +100,7 @@ public class MainClass {
 			System.out.println("You cannot ship more than 10 widgets at a time");
 		}
 		else if (totalNo >= WareHouse.getInstance().getWidgets().size()+1){
-			System.out.println("Warehouse doesnot have this amount of widgets");
+			System.out.println("Warehouse doesnot have this amount of widgets, please add ");
 		}
 		else{
 			Shipment shipment = Shipment.getInstance();
@@ -99,7 +109,6 @@ public class MainClass {
 				int id = sc.nextInt(); 
 				shipment.getToBeReleasedIds().add(id);
 			}
-			System.out.println("We will release the Widgets now! ");
 			return true;
 		}
 		return false;
@@ -111,6 +120,8 @@ public class MainClass {
 			WareHouse.getInstance().setWidgets(widgets);
 			Shipment.getInstance().getToBeReleasedIds().clear();
 			System.out.println("Widgets in ware House now  ::  " + new Gson().toJson(WareHouse.getInstance().getWidgets()));
+		}else{
+			 System.out.println("Shipment is empty :: " +  new Gson().toJson(Shipment.getInstance().getToBeReleasedIds()));
 		}
 	}
 }
