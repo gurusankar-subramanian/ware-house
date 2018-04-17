@@ -33,23 +33,22 @@ public class MainClass {
 					break;
 					
 			case 2: if(WareHouse.getInstance().getWidgets().size() > 0){
-						Collections.sort(WareHouse.getInstance().getWidgets(), (p1, p2) -> p1.getColor().compareTo(p2.getColor()));
+						main.sortByColor();
 						break;
 					}else{
 						System.out.println("There is no widget to sort ");
 					}
 					
 			case 3: if(WareHouse.getInstance().getWidgets().size() > 0){
-						Collections.sort(WareHouse.getInstance().getWidgets(), (p1, p2) -> p1.getProductionDate().compareTo(p2.getProductionDate()));
+						main.sortByDate();
 						break;
 					}else{
 						System.out.println("There is no widget to sort ");
 					}
 					break;
-			case 4: Boolean result = main.prepareShipment(sc);
-					if(result)
-						
+			case 4: main.prepareShipment(sc);
 					break;
+					
 			case 5 : System.out.println("Widgets in shipment now ::" +  new Gson().toJson(Shipment.getInstance().getToBeReleasedIds()));	
 					 break;
 					 
@@ -124,4 +123,14 @@ public class MainClass {
 			 System.out.println("Shipment is empty :: " +  new Gson().toJson(Shipment.getInstance().getToBeReleasedIds()));
 		}
 	}
+	
+	void sortByColor(){
+		Collections.sort(WareHouse.getInstance().getWidgets(), (p1, p2) -> p1.getColor().compareTo(p2.getColor()));
+	}
+	
+	void sortByDate(){
+		Collections.sort(WareHouse.getInstance().getWidgets(), (p1, p2) -> p1.getProductionDate().compareTo(p2.getProductionDate()));
+	}
+	
+	
 }
